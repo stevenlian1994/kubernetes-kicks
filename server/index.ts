@@ -1,7 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import { Pool } from 'pg';
 import pool from './config/db';
-
+import cors from 'cors';
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 
@@ -11,8 +11,37 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 
+// Add a list of allowed origins.
+// If you have more origins you would like to add, you can add them to the array below.
+const allowedOrigins = ['http://localhost:8080'];
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+// Then pass these options to cors:
+app.use(cors(options));
+
 // Routes
 app.use('/users', userRouter);
+// const cors = function(req: Request, res: Response, next: NextFunction) {
+//   const corsOptions = {
+//     origin: '*',
+//     credentials: true,
+//     allowedHeaders: ['Content-Type', 'Authorization']
+//   };
+
+//   res.header('Access-Control-Allow-Origin', corsOptions.origin);
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.header('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(', '));
+//   res.header('Access-Control-Allow-Credentials', corsOptions.credentials.toString());
+
+//   if (req.method === 'OPTIONS') {
+//     res.status(200).send();
+//     return;
+//   }
+
+//   next();
+// };
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

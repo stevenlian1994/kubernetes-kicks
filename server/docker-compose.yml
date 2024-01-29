@@ -17,3 +17,7 @@ services:
       POSTGRES_DB: test_db
     ports:
       - "5432:5432"
+  frontend:
+    build: ../client/k8s-kicks-frontend/
+    ports:
+      - "8080:80"
