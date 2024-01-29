@@ -1,7 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import { Pool } from 'pg';
-import pool from './config/db';
 import cors from 'cors';
+import { seedDatabase, syncDatabase } from './config/sequelize';
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 
@@ -23,25 +23,6 @@ app.use(cors(options));
 
 // Routes
 app.use('/users', userRouter);
-// const cors = function(req: Request, res: Response, next: NextFunction) {
-//   const corsOptions = {
-//     origin: '*',
-//     credentials: true,
-//     allowedHeaders: ['Content-Type', 'Authorization']
-//   };
-
-//   res.header('Access-Control-Allow-Origin', corsOptions.origin);
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.header('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(', '));
-//   res.header('Access-Control-Allow-Credentials', corsOptions.credentials.toString());
-
-//   if (req.method === 'OPTIONS') {
-//     res.status(200).send();
-//     return;
-//   }
-
-//   next();
-// };
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -75,10 +56,10 @@ async function initializeDatabase(pool: Pool): Promise<void> {
   }
 }
 
-// Call the function to initialize the database
-initializeDatabase(pool)
+syncDatabase()
   .then(() => {
     // Start your Express app or other operations
+    seedDatabase();
     console.log('Database seeding successful');
   })
   .catch((error) => {
@@ -88,3 +69,4 @@ initializeDatabase(pool)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+

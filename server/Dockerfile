@@ -13,5 +13,4 @@ ENV PORT=3000
 
 EXPOSE 3000
 
-# CMD [ "npm", "start" ]
-CMD ["npx", "ts-node", "index.ts"]
+CMD [ "npm", "run", "start:prod" ]
