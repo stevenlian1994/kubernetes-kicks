@@ -1,6 +1,17 @@
 import { User } from '../config/sequelize'; // Assuming you have the User model defined
+import { UserDTO } from '../models/UserDTO';
 
 class UserService {
+  // Transform user to UserDTO
+  transformUserToDTO(user: User): UserDTO {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+  }
+  
+
   async createUser(username: string, email: string): Promise<any> {
     try {
       const user = await User.create({ username, email });
@@ -14,7 +25,7 @@ class UserService {
   async getAllUsers(): Promise<any[]> {
     try {
       const users = await User.findAll();
-      return users.map(user => user.toJSON()); // Return an array of user data objects
+      return users.map(user => this.transformUserToDTO(user)); // Return an array of user data objects
     } catch (error) {
       console.error('Error retrieving users:', error);
       throw error;

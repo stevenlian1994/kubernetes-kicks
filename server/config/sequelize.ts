@@ -1,4 +1,6 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize } from 'sequelize';
+import {User} from '../models/User'
+
 let sequelize: Sequelize;
 if(process.env.NODE_ENV === 'production') {
     sequelize = new Sequelize({
@@ -21,13 +23,6 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 export { sequelize };
- 
-// Define the User model
-class User extends Model {
-  public id!: number;
-  public username!: string;
-  public email!: string;
-}
 
 User.init(
   {
