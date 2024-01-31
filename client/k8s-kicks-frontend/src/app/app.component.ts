@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { UsersComponent } from './users/users.component';
+import { MerchantSigninComponent } from './merchant-signin/merchant-signin.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, UsersComponent],
+  imports: [CommonModule, RouterOutlet, MerchantSigninComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -1,26 +1,26 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
-import userService from '../services/UserService';
+import { merchantService } from '../services/MerchantService';
 
 const router: Router = express.Router();
 
-// Create a new user
+// Create new merchant
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    const {username, email} = req.body;
+    const {email, password, companyName} = req.body;
 
-    const newUser = await userService.createUser(username, email);
-    res.status(201).json(newUser);
+    const newMerchant = await merchantService.createMerchant(email, password, companyName);
+    res.status(201).json(newMerchant);
   } catch (error) {
     next(error);
   }
 });
 
-// Get all users
+// Get all merchants
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await userService.getAllUsers();
-    res.json(users);
+    const merchants = await merchantService.getAllMerchants();
+    res.json(merchants);
   } catch (error) {
     next(error);
   }
@@ -29,7 +29,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 // Get user by ID
 router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userService.getUserById(req.params.id);
+    const user = await merchantService.getMerchantById(Number.parseInt(req.params.id));
     res.json(user);
   } catch (error) {
     next(error);
@@ -39,8 +39,8 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 // Update user by ID
 router.put('', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {id, username, email} = req.body;
-    const updatedUser = await userService.updateUser(id, username, email);
+    const {id, email, password, companyName} = req.body;
+    const updatedUser = await merchantService.updateMerchant(id, email, password, companyName);
     res.json(updatedUser);
   } catch (error) {
     next(error);
@@ -50,7 +50,7 @@ router.put('', async (req: Request, res: Response, next: NextFunction) => {
 // Delete user by ID
 router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await userService.deleteUser(req.params.id);
+    await merchantService.deleteMerchant(Number.parseInt(req.params.id));
     res.sendStatus(204);
   } catch (error) {
     next(error);

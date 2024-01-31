@@ -1,8 +1,8 @@
 import express, {Request, Response, NextFunction} from 'express';
 import cors from 'cors';
-import { seedDatabase, syncDatabase } from './config/sequelize';
+import { seedDatabase, syncDatabase } from './config/db';
 const bodyParser = require('body-parser');
-const userRouter = require('./routes/user');
+const merchantRouter = require('./routes/merchant');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,7 +21,7 @@ const options: cors.CorsOptions = {
 app.use(cors(options));
 
 // Routes
-app.use('/users', userRouter);
+app.use('/merchants', merchantRouter);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

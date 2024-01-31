@@ -1,0 +1,13 @@
+<h4>{{title}}</h4>
+<form [formGroup]="merchantForm">
+    <label>Email:
+        <input formControlName="email">
+    </label>
+    <label>Password:
+        <input formControlName="password">
+    </label>
+    <label>Company:
+        <input formControlName="companyName">
+    </label>
+    <button (click)="addMerchant()">Submit</button>
+</form>
