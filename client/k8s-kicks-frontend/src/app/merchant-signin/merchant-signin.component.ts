@@ -46,7 +46,7 @@ export class MerchantSigninComponent {
   getMerchants(): Observable<Merchant[]> {
     return this.httpClient.get(`${this.apiUrl}/merchants`).pipe(
       map((res: any) => {
-        return res.map((merchantData: any) => new Merchant(merchantData.email,merchantData.password,merchantData.companyName))
+        return res.map((merchantData: any) => new Merchant(merchantData.email,merchantData.companyName))
       })
     )
   }

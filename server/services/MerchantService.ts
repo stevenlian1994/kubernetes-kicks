@@ -5,9 +5,7 @@ class MerchantService {
   // Transform user to UserDTO
   transformUserToDTO(merchant: Merchant): MerchantDTO {
     return {
-      id: merchant.id,
       email: merchant.email,
-      password: merchant.password,
       companyName: merchant.companyName
     };
   }
@@ -36,24 +34,24 @@ class MerchantService {
     }
   }
 
-  async createMerchant(email: string, password: string, companyName: string): Promise<Merchant> {
+  async createMerchant(email: string, password: string, companyName: string): Promise<MerchantDTO> {
     try {
       const merchant = await Merchant.create({ email, password, companyName});
-      return merchant.toJSON(); // Return the user data as an object
+      return this.transformUserToDTO(merchant); // Return the user data as an object
     } catch (error) {
       console.error('Error creating user:', error);
       throw error; // Rethrow the error for handling at a higher level
     }
   }
 
-  async updateMerchant(id: number, email: string, password: string, companyName: string): Promise<any | null> {
+  async updateMerchant(id: number, email: string, password: string, companyName: string): Promise<MerchantDTO> {
     try {
       const merchant = await Merchant.findByPk(id);
       if (merchant) {
         await merchant.update({ email, password, companyName });
-        return merchant.toJSON(); // Return updated user data
+        return this.transformUserToDTO(merchant); // Return updated user data
       }
-      return null; // User not found
+      throw new Error('User not found')
     } catch (error) {
       console.error('Error updating user:', error);
       throw error;
