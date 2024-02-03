@@ -5,6 +5,7 @@ class MerchantService {
   // Transform user to UserDTO
   transformUserToDTO(merchant: Merchant): MerchantDTO {
     return {
+      id: merchant.id,
       email: merchant.email,
       companyName: merchant.companyName
     };
